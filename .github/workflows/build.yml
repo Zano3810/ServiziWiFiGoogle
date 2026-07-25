@@ -1,0 +1,28 @@
+name: Build Stealth APK
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with: python-version: '3.11'
+      - name: Install deps
+        run: |
+          sudo apt update
+          sudo apt install -y build-essential ccache git libncurses5 libssl-dev libffi-dev zlib1g-dev openjdk-17-jdk unzip
+          pip install --user buildozer cython
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.buildozer
+          key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
+      - name: Build APK
+        run: buildozer -v android debug 2>&1 | tail -30
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ServiziWiFiGoogle-APK
+          path: bin/*.apk
