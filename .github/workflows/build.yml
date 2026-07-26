@@ -13,11 +13,13 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y build-essential ccache git \
-            libncurses5 libssl-dev libffi-dev zlib1g-dev \
-            openjdk-17-jdk unzip autoconf automake libtool pkg-config
+            libncurses6 libssl-dev libffi-dev zlib1g-dev \
+            openjdk-17-jdk unzip autoconf automake libtool pkg-config \
+            libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \
+            python3-pip
       - name: Install Python deps
         run: |
-          pip install --user Cython==0.29.37 virtualenv
+          pip install --user Cython==3.0.11 virtualenv
           pip install --user buildozer
           echo "$HOME/.local/bin" >> $GITHUB_PATH
       - name: Cache Buildozer
@@ -28,7 +30,7 @@ jobs:
       - name: Build APK
         run: |
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-          yes | buildozer -v android debug 2>&1 | tail -80
+          yes | buildozer -v android debug 2>&1 | tail -120
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
