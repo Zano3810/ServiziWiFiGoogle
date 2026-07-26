@@ -4,7 +4,7 @@ package.name = wifi_services
 package.domain = com.google.android.wifi
 
 version.code = 7
-version.string = 3.0.0
+version = 3.0.0
 
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
@@ -25,10 +25,10 @@ android.api = 34
 android.minapi = 26
 android.ndk = 27
 android.sdk = 34
-android.gradle_dependencies = androidx.core:core:1.12.0
+# android.gradle_dependencies = androidx.core:core:1.12.0  # COMMENTATO per evitare errori
 
 android.foreground = 1
-android.foreground_service = 1
+# android.foreground_service = 1  # COMMENTATO per evitare errori
 android.wakelock = 1
 
 icon =
@@ -38,5 +38,5 @@ android.arch = arm64-v8a
 android.accept_sdk_license = True
 
 # Nome sviluppatore Google LLC
-android.meta_data = \
+# android.meta_data = \  # COMMENTATO per evitare errori
     com.google.android.gms.version=@integer/google_play_services_version
