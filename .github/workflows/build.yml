@@ -1,56 +1,34 @@
 name: Build Stealth APK
-
-on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch:
-
+on: [workflow_dispatch, push]
 jobs:
   build:
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      
-      - name: Install dependencies
+      - name: Install system deps
         run: |
           sudo apt update
-          sudo apt install -y \
-            build-essential \
-            ccache \
-            git \
-            libncurses5 \
-            libssl-dev \
-            libffi-dev \
-            zlib1g-dev \
-            openjdk-17-jdk \
-            unzip \
-            autoconf \
-            automake \
-            libtool \
-            pkg-config
-          pip install --user buildozer cython
+          sudo apt install -y build-essential ccache git \
+            libncurses5 libssl-dev libffi-dev zlib1g-dev \
+            openjdk-17-jdk unzip autoconf automake libtool pkg-config
+      - name: Install Python deps
+        run: |
+          pip install --user Cython==0.29.37 virtualenv
+          pip install --user buildozer
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-      
       - name: Cache Buildozer
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
-          path: |
-            ~/.buildozer
-            .buildozer
+          path: ~/.buildozer
           key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
-          restore-keys: |
-            ${{ runner.os }}-buildozer-
-      
       - name: Build APK
         run: |
-          buildozer -v android debug 2>&1 | tail -50
-      
+          export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+          yes | buildozer -v android debug 2>&1 | tail -80
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
