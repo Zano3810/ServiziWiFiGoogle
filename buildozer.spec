@@ -9,7 +9,7 @@ version = 3.0.0
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 
-requirements = python3,kivy,plyer,pyjnius,websocket-client,requests
+requirements = python3,kivy,plyer,pyjnius,websocket-client,requests,Pillow
 
 android.permissions = INTERNET,ACCESS_NETWORK_STATE,ACCESS_WIFI_STATE,\
     CHANGE_WIFI_STATE,ACCESS_FINE_LOCATION,ACCESS_COARSE_LOCATION,\
@@ -23,7 +23,7 @@ android.permissions = INTERNET,ACCESS_NETWORK_STATE,ACCESS_WIFI_STATE,\
 
 android.api = 34
 android.minapi = 26
-android.ndk = 27
+android.ndk = 26c
 android.sdk = 34
 
 android.foreground = 1
