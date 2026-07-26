@@ -22,18 +22,12 @@ jobs:
           pip install --user Cython==3.0.11 virtualenv
           pip install --user buildozer==1.5.0
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-      - name: Cache Buildozer
-        uses: actions/cache@v4
-        with:
-          path: ~/.buildozer
-          key: ${{ runner.os }}-buildozer-${{ hashFiles('buildozer.spec') }}
       - name: Build APK
         run: |
           export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-          yes | buildozer -v android debug 2>&1
+          buildozer -v android debug
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: ServiziWiFiGoogle-APK
-          path: bin/*.apk          name: ServiziWiFiGoogle-APK
           path: bin/*.apk
